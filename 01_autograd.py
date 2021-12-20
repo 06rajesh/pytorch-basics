@@ -19,4 +19,4 @@ for epoch in range(3):
     out = (weights*3).sum()
     out.backward()
     print(weights.grad)
-    weights.grad.zero_()
+    # weights.grad.zero_()

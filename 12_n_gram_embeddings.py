@@ -46,10 +46,10 @@ class NGramLanguageModeler(nn.Module):
 
     def forward(self, inputs):
         embeds = self.embeddings(inputs).view((1, -1))
-        out = F.relu(self.linear1(embeds))
-        out = self.linear2(out)
-        log_props = F.log_softmax(out, dim=1)
-        return log_props
+        # out = F.relu(self.linear1(embeds))
+        # out = self.linear2(out)
+        # log_props = F.log_softmax(out, dim=1)
+        return embeds
 
 losses = []
 loss_function = nn.NLLLoss()
@@ -64,6 +64,9 @@ for epoch in range(1):
         inputs = torch.tensor([word_to_ix[w] for w in context], dtype=torch.long)
         outputs = torch.tensor([word_to_ix[target]], dtype=torch.long)
 
+        print(inputs)
+        print(outputs)
+
         # Step 2. Recall that torch *accumulates* gradients. Before passing in a
         # new instance, you need to zero out the gradients from the old
         # instance
@@ -72,6 +75,7 @@ for epoch in range(1):
         # Step 3. Run the forward pass, getting log probabilities over next
         # words
         log_probs = model(inputs)
+        print(log_probs)
 
         # Step 4. Compute your loss function. (Again, Torch wants the target
         # word wrapped in a tensor)
